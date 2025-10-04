@@ -62,7 +62,7 @@ A modern, secure, and visually stunning authentication system built with cutting
    Create a `.env` file in the root directory:
    ```env
    PORT=3000
-   MONGODB_URI=mongodb://localhost:27017/authDB
+   MONGODB_URI=mongodb://localhost:27017/YOUR_DB
    JWT_SECRET=your_super_secure_jwt_secret_key_here
    SESSION_SECRET=your_super_secure_session_secret_here
    NODE_ENV=development
