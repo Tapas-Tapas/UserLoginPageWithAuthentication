@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Welcome</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+        .glass { backdrop-filter: blur(20px); background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); }
+        .animate-fade-in { animation: fadeIn 0.8s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .character-float { position: fixed; bottom: 20px; right: 20px; width: 150px; height: 200px; z-index: 50; }
+        @media (max-width: 768px) { .character-float { width: 100px; height: 150px; } }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900">
+    <canvas id="bg-canvas"></canvas>
+    
+    <!-- Floating Character -->
+    <div class="character-float">
+        <canvas id="character-canvas"></canvas>
+        <div class="glass rounded-lg p-2 mt-2 text-center">
+            <p class="text-white text-xs" id="character-message">Welcome back! 👋</p>
+        </div>
+    </div>
+    
+    <!-- Navigation -->
+    <nav class="glass fixed top-0 left-0 right-0 z-40 p-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                </div>
+                <h1 class="text-xl font-bold text-white">Dashboard</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="text-gray-300">Welcome, <span class="text-white font-semibold"><%= user.Username || user.email %></span></span>
+                <button id="logout-btn" class="bg-red-500/20 hover:bg-red-500/30 text-red-300 px-4 py-2 rounded-lg transition-colors">
+                    Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="pt-24 p-6 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <!-- Welcome Section -->
+            <div class="glass rounded-3xl p-8 mb-8 animate-fade-in">
+                <div class="text-center">
+                    <h2 class="text-4xl font-bold text-white mb-4">Welcome to Your Dashboard</h2>
+                    <p class="text-gray-300 text-lg">Manage your account and explore features</p>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="glass rounded-2xl p-6 card-hover animate-fade-in">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-400 text-sm">Account Status</p>
+                            <p class="text-2xl font-bold text-green-400">Active</p>
+                        </div>
+                        <div class="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass rounded-2xl p-6 card-hover animate-fade-in">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-400 text-sm">Security Level</p>
+                            <p class="text-2xl font-bold text-blue-400">High</p>
+                        </div>
+                        <div class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass rounded-2xl p-6 card-hover animate-fade-in">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-400 text-sm">Last Login</p>
+                            <p class="text-2xl font-bold text-purple-400">Today</p>
+                        </div>
+                        <div class="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass rounded-2xl p-6 card-hover animate-fade-in">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-400 text-sm">Notifications</p>
+                            <p class="text-2xl font-bold text-yellow-400">3</p>
+                        </div>
+                        <div class="w-12 h-12 bg-yellow-500/20 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5zM4 19h6v-6H4v6zM16 3h5v5h-5V3zM4 3h6v6H4V3z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Profile Card -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="glass rounded-3xl p-8 animate-fade-in">
+                    <h3 class="text-2xl font-bold text-white mb-6">Profile Information</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                                <span class="text-2xl font-bold text-white"><%= (user.Username || user.email).charAt(0).toUpperCase() %></span>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-semibold text-white"><%= user.Username || 'User' %></h4>
+                                <p class="text-gray-400"><%= user.email %></p>
+                            </div>
+                        </div>
+                        <div class="border-t border-white/10 pt-4">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <p class="text-gray-400 text-sm">Age</p>
+                                    <p class="text-white font-semibold"><%= user.age || 'Not specified' %></p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400 text-sm">Member Since</p>
+                                    <p class="text-white font-semibold">Today</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="glass rounded-3xl p-8 animate-fade-in">
+                    <h3 class="text-2xl font-bold text-white mb-6">Quick Actions</h3>
+                    <div class="space-y-4">
+                        <button class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
+                            Update Profile
+                        </button>
+                        <button class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-3 px-6 rounded-xl font-semibold hover:from-emerald-700 hover:to-teal-700 transition-all duration-300 transform hover:scale-105">
+                            Security Settings
+                        </button>
+                        <button class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 px-6 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105">
+                            View Activity
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Background particles
+        let bgScene, bgCamera, bgRenderer, particles;
+        
+        function initBackground() {
+            bgScene = new THREE.Scene();
+            bgCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            bgRenderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true });
+            bgRenderer.setSize(window.innerWidth, window.innerHeight);
+
+            const geometry = new THREE.BufferGeometry();
+            const particleCount = 500;
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+
+            for (let i = 0; i < particleCount * 3; i += 3) {
+                positions[i] = (Math.random() - 0.5) * 200;
+                positions[i + 1] = (Math.random() - 0.5) * 200;
+                positions[i + 2] = (Math.random() - 0.5) * 200;
+
+                colors[i] = Math.random() * 0.5 + 0.5;
+                colors[i + 1] = Math.random() * 0.5 + 0.5;
+                colors[i + 2] = 1;
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            const material = new THREE.PointsMaterial({ size: 3, vertexColors: true, transparent: true, opacity: 0.6 });
+            particles = new THREE.Points(geometry, material);
+            bgScene.add(particles);
+
+            bgCamera.position.z = 100;
+            animateBackground();
+        }
+
+        function animateBackground() {
+            requestAnimationFrame(animateBackground);
+            particles.rotation.x += 0.0005;
+            particles.rotation.y += 0.001;
+            bgRenderer.render(bgScene, bgCamera);
+        }
+
+        // Floating Character
+        let charScene, charCamera, charRenderer, character, clock;
+        const messages = [
+            "Welcome back! 👋",
+            "Everything looks good! ✨",
+            "Need help? Just ask! 🤝",
+            "Your account is secure 🔒"
+        ];
+        let messageIndex = 0;
+
+        function initCharacter() {
+            const canvas = document.getElementById('character-canvas');
+            charScene = new THREE.Scene();
+            charCamera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+            charRenderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+            charRenderer.setSize(canvas.clientWidth, canvas.clientHeight);
+            charRenderer.setClearColor(0x000000, 0);
+
+            // Create mini character
+            const group = new THREE.Group();
+            
+            // Head
+            const headGeometry = new THREE.SphereGeometry(0.8, 32, 32);
+            const headMaterial = new THREE.MeshLambertMaterial({ color: 0xffdbac });
+            const head = new THREE.Mesh(headGeometry, headMaterial);
+            head.position.y = 1.5;
+            group.add(head);
+
+            // Eyes
+            const eyeGeometry = new THREE.SphereGeometry(0.1, 16, 16);
+            const eyeMaterial = new THREE.MeshLambertMaterial({ color: 0x000000 });
+            const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+            leftEye.position.set(-0.2, 1.6, 0.6);
+            const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+            rightEye.position.set(0.2, 1.6, 0.6);
+            group.add(leftEye, rightEye);
+
+            // Body
+            const bodyGeometry = new THREE.CylinderGeometry(0.6, 0.8, 1.5, 32);
+            const bodyMaterial = new THREE.MeshLambertMaterial({ color: 0x4f46e5 });
+            const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+            body.position.y = 0;
+            group.add(body);
+
+            // Arms
+            const armGeometry = new THREE.CylinderGeometry(0.15, 0.15, 1, 16);
+            const armMaterial = new THREE.MeshLambertMaterial({ color: 0xffdbac });
+            const leftArm = new THREE.Mesh(armGeometry, armMaterial);
+            leftArm.position.set(-0.9, 0.3, 0);
+            leftArm.rotation.z = Math.PI / 6;
+            const rightArm = new THREE.Mesh(armGeometry, armMaterial);
+            rightArm.position.set(0.9, 0.3, 0);
+            rightArm.rotation.z = -Math.PI / 6;
+            group.add(leftArm, rightArm);
+
+            character = group;
+            charScene.add(character);
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(3, 3, 3);
+            charScene.add(ambientLight, directionalLight);
+
+            charCamera.position.z = 4;
+            clock = new THREE.Clock();
+            animateCharacter();
+        }
+
+        function animateCharacter() {
+            requestAnimationFrame(animateCharacter);
+            const time = clock.getElapsedTime();
+
+            if (character) {
+                // Floating animation
+                character.position.y = Math.sin(time * 2) * 0.1;
+                
+                // Gentle rotation
+                character.rotation.y = Math.sin(time * 0.5) * 0.2;
+                
+                // Arm waving
+                const leftArm = character.children[4];
+                const rightArm = character.children[5];
+                if (leftArm && rightArm) {
+                    leftArm.rotation.z = Math.PI / 6 + Math.sin(time * 4) * 0.2;
+                    rightArm.rotation.z = -Math.PI / 6 - Math.sin(time * 4 + Math.PI) * 0.2;
+                }
+            }
+
+            charRenderer.render(charScene, charCamera);
+        }
+
+        // Character message updates
+        function updateCharacterMessage() {
+            const messageEl = document.getElementById('character-message');
+            if (messageEl) {
+                messageEl.textContent = messages[messageIndex];
+                messageIndex = (messageIndex + 1) % messages.length;
+            }
+        }
+
+        // Logout functionality
+        document.getElementById('logout-btn').addEventListener('click', async () => {
+            document.getElementById('character-message').textContent = "Goodbye! See you soon! 👋";
+            try {
+                const response = await fetch('/logout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                
+                if (response.ok) {
+                    setTimeout(() => window.location.href = '/login', 1000);
+                }
+            } catch (error) {
+                console.error('Logout failed:', error);
+            }
+        });
+
+        // Initialize
+        initBackground();
+        initCharacter();
+        setInterval(updateCharacterMessage, 4000);
+
+        // Handle resize
+        window.addEventListener('resize', () => {
+            bgCamera.aspect = window.innerWidth / window.innerHeight;
+            bgCamera.updateProjectionMatrix();
+            bgRenderer.setSize(window.innerWidth, window.innerHeight);
+            
+            const canvas = document.getElementById('character-canvas');
+            charCamera.aspect = canvas.clientWidth / canvas.clientHeight;
+            charCamera.updateProjectionMatrix();
+            charRenderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        });
+
+        // Add staggered animation to cards
+        const cards = document.querySelectorAll('.animate-fade-in');
+        cards.forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+        });
+    </script>
+</body>
+</html>

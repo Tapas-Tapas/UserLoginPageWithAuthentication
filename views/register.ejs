@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - Join Us</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        body { overflow: hidden; }
+        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+        #character-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; }
+        .glass { backdrop-filter: blur(20px); background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .btn-glow { box-shadow: 0 0 20px rgba(16, 185, 129, 0.5); transition: all 0.3s ease; }
+        .btn-glow:hover { box-shadow: 0 0 30px rgba(16, 185, 129, 0.7); transform: translateY(-2px); }
+        .input-glow:focus { box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2); }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+        .shake { animation: shake 0.5s ease-in-out; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+        .character-container { position: relative; width: 300px; height: 400px; }
+        .strength-weak { color: #ef4444; } .strength-medium { color: #f59e0b; } .strength-strong { color: #10b981; }
+        @media (max-width: 768px) { .character-container { width: 200px; height: 300px; } }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-emerald-900 via-teal-900 to-cyan-900">
+    <canvas id="bg-canvas"></canvas>
+    
+    <div class="min-h-screen flex items-center justify-center p-4 relative z-10">
+        <div class="flex items-center justify-center max-w-6xl w-full gap-8">
+            <!-- 3D Character Section -->
+            <div class="hidden lg:flex flex-col items-center justify-center">
+                <div class="character-container">
+                    <canvas id="character-canvas"></canvas>
+                </div>
+                <div class="glass rounded-2xl p-4 mt-4 text-center">
+                    <p class="text-white text-sm" id="character-message">Welcome! Let's create your account together 🌟</p>
+                </div>
+            </div>
+
+            <!-- Register Form -->
+            <div class="glass rounded-3xl p-8 w-full max-w-md shadow-2xl animate-float">
+                <div class="text-center mb-8">
+                    <div class="w-16 h-16 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                        </svg>
+                    </div>
+                    <h1 class="text-3xl font-bold text-white mb-2">Create Account</h1>
+                    <p class="text-gray-300">Join our secure platform</p>
+                </div>
+
+                <div id="error-message" class="hidden mb-4 p-3 bg-red-500/20 border border-red-500/50 rounded-lg text-red-200 text-sm"></div>
+
+                <form id="register-form" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Username</label>
+                        <input type="text" name="Username" required 
+                               class="input-glow w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 transition-all duration-300"
+                               placeholder="Choose a username">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                        <input type="email" name="email" required 
+                               class="input-glow w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 transition-all duration-300"
+                               placeholder="Enter your email">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Age</label>
+                        <input type="number" name="age" min="13" max="120" required 
+                               class="input-glow w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 transition-all duration-300"
+                               placeholder="Enter your age">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Password</label>
+                        <div class="relative">
+                            <input type="password" name="password" required id="password-input"
+                                   class="input-glow w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500 transition-all duration-300"
+                                   placeholder="Create a strong password">
+                            <button type="button" id="toggle-password" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div id="password-strength" class="mt-2 text-sm hidden">
+                            <div class="flex items-center space-x-2">
+                                <div class="flex-1 bg-gray-700 rounded-full h-2">
+                                    <div id="strength-bar" class="h-2 rounded-full transition-all duration-300"></div>
+                                </div>
+                                <span id="strength-text" class="text-xs font-medium"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center text-sm">
+                        <label class="flex items-center text-gray-300">
+                            <input type="checkbox" required class="mr-2 rounded bg-white/10 border-white/20">
+                            I agree to the <a href="#" class="text-emerald-400 hover:text-emerald-300">Terms</a> and <a href="#" class="text-emerald-400 hover:text-emerald-300">Privacy Policy</a>
+                        </label>
+                    </div>
+
+                    <button type="submit" id="register-btn" 
+                            class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-3 px-6 rounded-xl font-semibold hover:from-emerald-700 hover:to-teal-700 focus:outline-none transition-all duration-300 btn-glow">
+                        <span id="btn-text">Create Account</span>
+                        <span id="btn-loading" class="hidden">
+                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Creating account...
+                        </span>
+                    </button>
+                </form>
+
+                <div class="mt-8 text-center">
+                    <p class="text-gray-400">Already have an account? 
+                        <a href="/login" class="text-emerald-400 hover:text-emerald-300 font-semibold transition-colors">Sign in</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Background particles
+        let bgScene, bgCamera, bgRenderer, particles;
+        
+        function initBackground() {
+            bgScene = new THREE.Scene();
+            bgCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            bgRenderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true });
+            bgRenderer.setSize(window.innerWidth, window.innerHeight);
+
+            const geometry = new THREE.BufferGeometry();
+            const particleCount = 800;
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+
+            for (let i = 0; i < particleCount * 3; i += 3) {
+                positions[i] = (Math.random() - 0.5) * 100;
+                positions[i + 1] = (Math.random() - 0.5) * 100;
+                positions[i + 2] = (Math.random() - 0.5) * 100;
+
+                colors[i] = Math.random() * 0.3 + 0.2;
+                colors[i + 1] = Math.random() * 0.5 + 0.5;
+                colors[i + 2] = Math.random() * 0.3 + 0.4;
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            const material = new THREE.PointsMaterial({ size: 2, vertexColors: true, transparent: true, opacity: 0.6 });
+            particles = new THREE.Points(geometry, material);
+            bgScene.add(particles);
+
+            bgCamera.position.z = 50;
+            animateBackground();
+        }
+
+        function animateBackground() {
+            requestAnimationFrame(animateBackground);
+            particles.rotation.x += 0.001;
+            particles.rotation.y += 0.002;
+            bgRenderer.render(bgScene, bgCamera);
+        }
+
+        // 3D Character
+        let charScene, charCamera, charRenderer, character, clock;
+        const messages = [
+            "Welcome! Let's create your account together 🌟",
+            "Please fill in your details carefully 📝",
+            "Choose a strong password for security 🔐",
+            "Almost done! You're doing great 🎉"
+        ];
+        let messageIndex = 0;
+
+        function initCharacter() {
+            const canvas = document.getElementById('character-canvas');
+            charScene = new THREE.Scene();
+            charCamera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+            charRenderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+            charRenderer.setSize(canvas.clientWidth, canvas.clientHeight);
+            charRenderer.setClearColor(0x000000, 0);
+
+            // Create cartoon character
+            const group = new THREE.Group();
+            
+            // Head
+            const headGeometry = new THREE.SphereGeometry(1, 32, 32);
+            const headMaterial = new THREE.MeshLambertMaterial({ color: 0xffdbac });
+            const head = new THREE.Mesh(headGeometry, headMaterial);
+            head.position.y = 2;
+            group.add(head);
+
+            // Eyes
+            const eyeGeometry = new THREE.SphereGeometry(0.15, 16, 16);
+            const eyeMaterial = new THREE.MeshLambertMaterial({ color: 0x000000 });
+            const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+            leftEye.position.set(-0.3, 2.2, 0.8);
+            const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+            rightEye.position.set(0.3, 2.2, 0.8);
+            group.add(leftEye, rightEye);
+
+            // Smile
+            const smileGeometry = new THREE.TorusGeometry(0.3, 0.05, 8, 16, Math.PI);
+            const smileMaterial = new THREE.MeshLambertMaterial({ color: 0x000000 });
+            const smile = new THREE.Mesh(smileGeometry, smileMaterial);
+            smile.position.set(0, 1.8, 0.8);
+            smile.rotation.z = Math.PI;
+            group.add(smile);
+
+            // Body
+            const bodyGeometry = new THREE.CylinderGeometry(0.8, 1, 2, 32);
+            const bodyMaterial = new THREE.MeshLambertMaterial({ color: 0x10b981 });
+            const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+            body.position.y = 0;
+            group.add(body);
+
+            // Arms
+            const armGeometry = new THREE.CylinderGeometry(0.2, 0.2, 1.5, 16);
+            const armMaterial = new THREE.MeshLambertMaterial({ color: 0xffdbac });
+            const leftArm = new THREE.Mesh(armGeometry, armMaterial);
+            leftArm.position.set(-1.2, 0.5, 0);
+            leftArm.rotation.z = Math.PI / 4;
+            const rightArm = new THREE.Mesh(armGeometry, armMaterial);
+            rightArm.position.set(1.2, 0.5, 0);
+            rightArm.rotation.z = -Math.PI / 4;
+            group.add(leftArm, rightArm);
+
+            character = group;
+            charScene.add(character);
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(5, 5, 5);
+            charScene.add(ambientLight, directionalLight);
+
+            charCamera.position.z = 5;
+            clock = new THREE.Clock();
+            animateCharacter();
+        }
+
+        function animateCharacter() {
+            requestAnimationFrame(animateCharacter);
+            const time = clock.getElapsedTime();
+
+            if (character) {
+                // Breathing animation
+                character.scale.y = 1 + Math.sin(time * 2) * 0.05;
+                
+                // Gentle nodding
+                character.rotation.x = Math.sin(time * 0.8) * 0.1;
+                
+                // Arm gestures
+                const leftArm = character.children[5];
+                const rightArm = character.children[6];
+                if (leftArm && rightArm) {
+                    leftArm.rotation.z = Math.PI / 4 + Math.sin(time * 2) * 0.2;
+                    rightArm.rotation.z = -Math.PI / 4 - Math.sin(time * 2 + Math.PI) * 0.2;
+                }
+            }
+
+            charRenderer.render(charScene, charCamera);
+        }
+
+        // Password strength checker
+        function checkPasswordStrength(password) {
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (/[a-z]/.test(password)) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+            const strengthBar = document.getElementById('strength-bar');
+            const strengthText = document.getElementById('strength-text');
+            const strengthContainer = document.getElementById('password-strength');
+
+            if (password.length === 0) {
+                strengthContainer.classList.add('hidden');
+                return;
+            }
+
+            strengthContainer.classList.remove('hidden');
+
+            if (strength <= 2) {
+                strengthBar.style.width = '33%';
+                strengthBar.className = 'h-2 rounded-full transition-all duration-300 bg-red-500';
+                strengthText.textContent = 'Weak';
+                strengthText.className = 'text-xs font-medium strength-weak';
+                document.getElementById('character-message').textContent = "Try a stronger password! 💪";
+            } else if (strength <= 4) {
+                strengthBar.style.width = '66%';
+                strengthBar.className = 'h-2 rounded-full transition-all duration-300 bg-yellow-500';
+                strengthText.textContent = 'Medium';
+                strengthText.className = 'text-xs font-medium strength-medium';
+                document.getElementById('character-message').textContent = "Getting better! Add more variety 📈";
+            } else {
+                strengthBar.style.width = '100%';
+                strengthBar.className = 'h-2 rounded-full transition-all duration-300 bg-green-500';
+                strengthText.textContent = 'Strong';
+                strengthText.className = 'text-xs font-medium strength-strong';
+                document.getElementById('character-message').textContent = "Perfect! That's a strong password 🎯";
+            }
+        }
+
+        // Character interactions
+        function updateCharacterMessage() {
+            const messageEl = document.getElementById('character-message');
+            if (messageEl) {
+                messageEl.textContent = messages[messageIndex];
+                messageIndex = (messageIndex + 1) % messages.length;
+            }
+        }
+
+        // Form handling
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const btn = document.getElementById('register-btn');
+            const btnText = document.getElementById('btn-text');
+            const btnLoading = document.getElementById('btn-loading');
+            const errorMsg = document.getElementById('error-message');
+            
+            btn.disabled = true;
+            btnText.classList.add('hidden');
+            btnLoading.classList.remove('hidden');
+            errorMsg.classList.add('hidden');
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    document.getElementById('character-message').textContent = "Account created! Welcome aboard! 🚀";
+                    setTimeout(() => window.location.href = '/login', 2000);
+                } else {
+                    throw new Error(result.error || 'Registration failed');
+                }
+            } catch (error) {
+                errorMsg.textContent = error.message;
+                errorMsg.classList.remove('hidden');
+                document.querySelector('.glass').classList.add('shake');
+                document.getElementById('character-message').textContent = "Oops! Please check your information 😅";
+                setTimeout(() => document.querySelector('.glass').classList.remove('shake'), 500);
+            } finally {
+                btn.disabled = false;
+                btnText.classList.remove('hidden');
+                btnLoading.classList.add('hidden');
+            }
+        });
+
+        // Password toggle
+        document.getElementById('toggle-password').addEventListener('click', () => {
+            const passwordInput = document.getElementById('password-input');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+        });
+
+        // Password strength monitoring
+        document.getElementById('password-input').addEventListener('input', (e) => {
+            checkPasswordStrength(e.target.value);
+        });
+
+        // Input focus effects
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', () => {
+                updateCharacterMessage();
+            });
+        });
+
+        // Initialize
+        initBackground();
+        if (window.innerWidth >= 1024) {
+            initCharacter();
+            setInterval(updateCharacterMessage, 6000);
+        }
+
+        // Handle resize
+        window.addEventListener('resize', () => {
+            bgCamera.aspect = window.innerWidth / window.innerHeight;
+            bgCamera.updateProjectionMatrix();
+            bgRenderer.setSize(window.innerWidth, window.innerHeight);
+            
+            if (charRenderer) {
+                const canvas = document.getElementById('character-canvas');
+                charCamera.aspect = canvas.clientWidth / canvas.clientHeight;
+                charCamera.updateProjectionMatrix();
+                charRenderer.setSize(canvas.clientWidth, canvas.clientHeight);
+            }
+        });
+    </script>
+</body>
+</html>
