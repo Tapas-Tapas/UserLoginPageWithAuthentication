@@ -58,10 +58,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "jwtsecretkey";
 // Optional MongoDB connection (set MONGODB_URI in .env)
 if (process.env.MONGODB_URI) {
   mongoose
-    .connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
+    .connect(process.env.MONGODB_URI)
     .then(() => console.log("Connected to MongoDB"))
     .catch((err) => console.warn("MongoDB connect failed:", err.message));
 } else {
