@@ -16,7 +16,10 @@
         .animate-fade-in { animation: fadeIn 0.8s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .character-float { position: fixed; bottom: 20px; right: 20px; width: 150px; height: 200px; z-index: 50; }
-        @media (max-width: 768px) { .character-float { width: 100px; height: 150px; } }
+        @media (max-width: 1024px) { .character-float { width: 120px; height: 170px; bottom: 15px; right: 15px; } }
+        @media (max-width: 768px) { .character-float { width: 100px; height: 150px; bottom: 10px; right: 10px; } }
+        @media (max-width: 640px) { .character-float { width: 80px; height: 120px; } }
+        @media (max-width: 480px) { .character-float { display: none; } }
     </style>
 </head>
 <body class="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900">
@@ -31,19 +34,20 @@
     </div>
     
     <!-- Navigation -->
-    <nav class="glass fixed top-0 left-0 right-0 z-40 p-4">
+    <nav class="glass fixed top-0 left-0 right-0 z-40 p-3 sm:p-4">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="flex items-center space-x-2 sm:space-x-3">
+                <div class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                     </svg>
                 </div>
-                <h1 class="text-xl font-bold text-white">Dashboard</h1>
+                <h1 class="text-lg sm:text-xl font-bold text-white">Dashboard</h1>
             </div>
-            <div class="flex items-center space-x-4">
-                <span class="text-gray-300">Welcome, <span class="text-white font-semibold"><%= user.Username || user.email %></span></span>
-                <button id="logout-btn" class="bg-red-500/20 hover:bg-red-500/30 text-red-300 px-4 py-2 rounded-lg transition-colors">
+            <div class="flex items-center space-x-2 sm:space-x-4">
+                <span class="text-gray-300 text-sm sm:text-base hidden sm:inline">Welcome, <span class="text-white font-semibold"><%= user.Username || user.email %></span></span>
+                <span class="text-gray-300 text-sm sm:hidden">Hi, <span class="text-white font-semibold"><%= (user.Username || user.email).split('@')[0] %></span></span>
+                <button id="logout-btn" class="bg-red-500/20 hover:bg-red-500/30 text-red-300 px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg transition-colors text-sm sm:text-base">
                     Logout
                 </button>
             </div>
@@ -51,68 +55,68 @@
     </nav>
 
     <!-- Main Content -->
-    <div class="pt-24 p-6 relative z-10">
+    <div class="pt-20 sm:pt-24 p-3 sm:p-6 relative z-10">
         <div class="max-w-7xl mx-auto">
             <!-- Welcome Section -->
-            <div class="glass rounded-3xl p-8 mb-8 animate-fade-in">
+            <div class="glass rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8 animate-fade-in">
                 <div class="text-center">
-                    <h2 class="text-4xl font-bold text-white mb-4">Welcome to Your Dashboard</h2>
-                    <p class="text-gray-300 text-lg">Manage your account and explore features</p>
+                    <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-2 sm:mb-4">Welcome to Your Dashboard</h2>
+                    <p class="text-gray-300 text-sm sm:text-base lg:text-lg">Manage your account and explore features</p>
                 </div>
             </div>
 
             <!-- Stats Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <div class="glass rounded-2xl p-6 card-hover animate-fade-in">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-gray-400 text-sm">Account Status</p>
-                            <p class="text-2xl font-bold text-green-400">Active</p>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
+                <div class="glass rounded-xl sm:rounded-2xl p-3 sm:p-4 lg:p-6 card-hover animate-fade-in">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                        <div class="mb-2 sm:mb-0">
+                            <p class="text-gray-400 text-xs sm:text-sm">Account Status</p>
+                            <p class="text-lg sm:text-xl lg:text-2xl font-bold text-green-400">Active</p>
                         </div>
-                        <div class="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center">
-                            <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-green-500/20 rounded-lg sm:rounded-xl flex items-center justify-center">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                         </div>
                     </div>
                 </div>
 
-                <div class="glass rounded-2xl p-6 card-hover animate-fade-in">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-gray-400 text-sm">Security Level</p>
-                            <p class="text-2xl font-bold text-blue-400">High</p>
+                <div class="glass rounded-xl sm:rounded-2xl p-3 sm:p-4 lg:p-6 card-hover animate-fade-in">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                        <div class="mb-2 sm:mb-0">
+                            <p class="text-gray-400 text-xs sm:text-sm">Security Level</p>
+                            <p class="text-lg sm:text-xl lg:text-2xl font-bold text-blue-400">High</p>
                         </div>
-                        <div class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
-                            <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-blue-500/20 rounded-lg sm:rounded-xl flex items-center justify-center">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                             </svg>
                         </div>
                     </div>
                 </div>
 
-                <div class="glass rounded-2xl p-6 card-hover animate-fade-in">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-gray-400 text-sm">Last Login</p>
-                            <p class="text-2xl font-bold text-purple-400">Today</p>
+                <div class="glass rounded-xl sm:rounded-2xl p-3 sm:p-4 lg:p-6 card-hover animate-fade-in">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                        <div class="mb-2 sm:mb-0">
+                            <p class="text-gray-400 text-xs sm:text-sm">Last Login</p>
+                            <p class="text-lg sm:text-xl lg:text-2xl font-bold text-purple-400">Today</p>
                         </div>
-                        <div class="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center">
-                            <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-purple-500/20 rounded-lg sm:rounded-xl flex items-center justify-center">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                         </div>
                     </div>
                 </div>
 
-                <div class="glass rounded-2xl p-6 card-hover animate-fade-in">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-gray-400 text-sm">Notifications</p>
-                            <p class="text-2xl font-bold text-yellow-400">3</p>
+                <div class="glass rounded-xl sm:rounded-2xl p-3 sm:p-4 lg:p-6 card-hover animate-fade-in">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                        <div class="mb-2 sm:mb-0">
+                            <p class="text-gray-400 text-xs sm:text-sm">Notifications</p>
+                            <p class="text-lg sm:text-xl lg:text-2xl font-bold text-yellow-400">3</p>
                         </div>
-                        <div class="w-12 h-12 bg-yellow-500/20 rounded-xl flex items-center justify-center">
-                            <svg class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-yellow-500/20 rounded-lg sm:rounded-xl flex items-center justify-center">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5zM4 19h6v-6H4v6zM16 3h5v5h-5V3zM4 3h6v6H4V3z"></path>
                             </svg>
                         </div>
@@ -121,17 +125,17 @@
             </div>
 
             <!-- User Profile Card -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div class="glass rounded-3xl p-8 animate-fade-in">
-                    <h3 class="text-2xl font-bold text-white mb-6">Profile Information</h3>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
+                <div class="glass rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 animate-fade-in">
+                    <h3 class="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">Profile Information</h3>
                     <div class="space-y-4">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                                <span class="text-2xl font-bold text-white"><%= (user.Username || user.email).charAt(0).toUpperCase() %></span>
+                        <div class="flex items-center space-x-3 sm:space-x-4">
+                            <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                                <span class="text-lg sm:text-2xl font-bold text-white"><%= (user.Username || user.email).charAt(0).toUpperCase() %></span>
                             </div>
                             <div>
-                                <h4 class="text-xl font-semibold text-white"><%= user.Username || 'User' %></h4>
-                                <p class="text-gray-400"><%= user.email %></p>
+                                <h4 class="text-lg sm:text-xl font-semibold text-white"><%= user.Username || 'User' %></h4>
+                                <p class="text-gray-400 text-sm sm:text-base break-all"><%= user.email %></p>
                             </div>
                         </div>
                         <div class="border-t border-white/10 pt-4">
@@ -150,16 +154,16 @@
                 </div>
 
                 <!-- Quick Actions -->
-                <div class="glass rounded-3xl p-8 animate-fade-in">
-                    <h3 class="text-2xl font-bold text-white mb-6">Quick Actions</h3>
-                    <div class="space-y-4">
-                        <button class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
+                <div class="glass rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 animate-fade-in">
+                    <h3 class="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">Quick Actions</h3>
+                    <div class="space-y-3 sm:space-y-4">
+                        <button class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg sm:rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 text-sm sm:text-base">
                             Update Profile
                         </button>
-                        <button class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-3 px-6 rounded-xl font-semibold hover:from-emerald-700 hover:to-teal-700 transition-all duration-300 transform hover:scale-105">
+                        <button class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg sm:rounded-xl font-semibold hover:from-emerald-700 hover:to-teal-700 transition-all duration-300 transform hover:scale-105 text-sm sm:text-base">
                             Security Settings
                         </button>
-                        <button class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 px-6 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105">
+                        <button class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg sm:rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105 text-sm sm:text-base">
                             View Activity
                         </button>
                     </div>

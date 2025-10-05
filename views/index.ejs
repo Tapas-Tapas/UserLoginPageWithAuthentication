@@ -24,19 +24,19 @@
     <div id="canvas-container"></div>
     
     <!-- Navigation -->
-    <nav class="glass fixed top-0 left-0 right-0 z-50 p-4">
+    <nav class="glass fixed top-0 left-0 right-0 z-50 p-3 sm:p-4">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="flex items-center space-x-2 sm:space-x-3">
+                <div class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                     </svg>
                 </div>
-                <h1 class="text-xl font-bold text-white">SecureAuth</h1>
+                <h1 class="text-lg sm:text-xl font-bold text-white">SecureAuth</h1>
             </div>
-            <div class="flex items-center space-x-4">
-                <a href="/login" class="text-gray-300 hover:text-white transition-colors">Login</a>
-                <a href="/register" class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-300">
+            <div class="flex items-center space-x-2 sm:space-x-4">
+                <a href="/login" class="text-gray-300 hover:text-white transition-colors text-sm sm:text-base">Login</a>
+                <a href="/register" class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 text-sm sm:text-base">
                     Get Started
                 </a>
             </div>
@@ -44,24 +44,24 @@
     </nav>
 
     <!-- Hero Section -->
-    <div class="min-h-screen flex items-center justify-center p-6">
+    <div class="min-h-screen flex items-center justify-center p-3 sm:p-6">
         <div class="max-w-6xl mx-auto text-center">
             <div class="hero-text">
-                <h1 class="text-6xl md:text-8xl font-bold text-white mb-6 leading-tight">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-4 sm:mb-6 leading-tight">
                     Secure
                     <span class="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
                         Authentication
                     </span>
                 </h1>
-                <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
+                <p class="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 mb-6 sm:mb-8 max-w-3xl mx-auto px-4">
                     Experience next-generation security with our professional 3D animated authentication system. 
                     Built with JWT, bcrypt, and modern web technologies.
                 </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="/register" class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
+                    <a href="/register" class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl font-semibold text-base sm:text-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
                         Create Account
                     </a>
-                    <a href="/login" class="glass text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-white/20 transition-all duration-300 transform hover:scale-105">
+                    <a href="/login" class="glass text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl font-semibold text-base sm:text-lg hover:bg-white/20 transition-all duration-300 transform hover:scale-105">
                         Sign In
                     </a>
                 </div>
@@ -77,27 +77,27 @@
     </div>
 
     <!-- Features Section -->
-    <div class="py-20 px-6">
+    <div class="py-12 sm:py-16 lg:py-20 px-3 sm:px-6">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
+            <div class="text-center mb-12 sm:mb-16">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
                     Why Choose Our Platform?
                 </h2>
-                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                <p class="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto px-4">
                     Built with cutting-edge security features and modern design principles
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                 <!-- Security Feature -->
-                <div class="glass rounded-3xl p-8 feature-card">
-                    <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mb-6">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="glass rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 feature-card">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-6">
+                        <svg class="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-bold text-white mb-4">Advanced Security</h3>
-                    <p class="text-gray-300">
+                    <h3 class="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">Advanced Security</h3>
+                    <p class="text-gray-300 text-sm sm:text-base">
                         JWT tokens, bcrypt hashing, and secure session management protect your data with enterprise-grade security.
                     </p>
                 </div>
@@ -171,20 +171,20 @@
     </div>
 
     <!-- CTA Section -->
-    <div class="py-20 px-6">
+    <div class="py-12 sm:py-16 lg:py-20 px-3 sm:px-6">
         <div class="max-w-4xl mx-auto text-center">
-            <div class="glass rounded-3xl p-12">
-                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
+            <div class="glass rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
                     Ready to Get Started?
                 </h2>
-                <p class="text-xl text-gray-300 mb-8">
+                <p class="text-lg sm:text-xl text-gray-300 mb-6 sm:mb-8 px-4">
                     Join thousands of users who trust our secure authentication system
                 </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="/register" class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+                    <a href="/register" class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl font-semibold text-base sm:text-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
                         Create Free Account
                     </a>
-                    <a href="/login" class="glass text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-white/20 transition-all duration-300 transform hover:scale-105">
+                    <a href="/login" class="glass text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl font-semibold text-base sm:text-lg hover:bg-white/20 transition-all duration-300 transform hover:scale-105">
                         Sign In Now
                     </a>
                 </div>

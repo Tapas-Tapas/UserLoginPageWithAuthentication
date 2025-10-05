@@ -21,53 +21,62 @@
         .shake { animation: shake 0.5s ease-in-out; }
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
         .character-container { position: relative; width: 300px; height: 400px; }
-        @media (max-width: 768px) { .character-container { width: 200px; height: 300px; } }
+        @media (max-width: 1280px) { .character-container { width: 250px; height: 350px; } }
+        @media (max-width: 1024px) { .character-container { width: 200px; height: 300px; } }
+        @media (max-width: 768px) { .character-container { display: none; } }
+        @media (max-width: 640px) { .glass { margin: 1rem; padding: 1.5rem; } }
+        @media (max-width: 480px) { .glass { margin: 0.5rem; padding: 1rem; } }
     </style>
 </head>
 <body class="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900">
     <canvas id="bg-canvas"></canvas>
     
-    <div class="min-h-screen flex items-center justify-center p-4 relative z-10">
-        <div class="flex items-center justify-center max-w-6xl w-full gap-8">
+    <div class="min-h-screen flex items-center justify-center p-2 sm:p-4 relative z-10">
+        <div class="flex flex-col lg:flex-row items-center justify-center max-w-6xl w-full gap-4 lg:gap-8">
             <!-- 3D Character Section -->
-            <div class="hidden lg:flex flex-col items-center justify-center">
+            <div class="hidden lg:flex flex-col items-center justify-center xl:mr-8">
                 <div class="character-container">
                     <canvas id="character-canvas"></canvas>
                 </div>
-                <div class="glass rounded-2xl p-4 mt-4 text-center">
-                    <p class="text-white text-sm" id="character-message">Hi! I'm here to help you sign in securely 👋</p>
+                <div class="glass rounded-2xl p-3 lg:p-4 mt-4 text-center max-w-xs">
+                    <p class="text-white text-xs lg:text-sm" id="character-message">Hi! I'm here to help you sign in securely 👋</p>
                 </div>
             </div>
 
+            <!-- Mobile Character Message -->
+            <div class="lg:hidden glass rounded-2xl p-3 mb-4 text-center w-full max-w-md">
+                <p class="text-white text-sm" id="mobile-character-message">Welcome! Sign in to continue 👋</p>
+            </div>
+
             <!-- Login Form -->
-            <div class="glass rounded-3xl p-8 w-full max-w-md shadow-2xl animate-float">
+            <div class="glass rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 w-full max-w-md shadow-2xl animate-float">
                 <div class="text-center mb-8">
                     <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center">
                         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                         </svg>
                     </div>
-                    <h1 class="text-3xl font-bold text-white mb-2">Welcome Back</h1>
-                    <p class="text-gray-300">Sign in to your account</p>
+                    <h1 class="text-2xl sm:text-3xl font-bold text-white mb-2">Welcome Back</h1>
+                    <p class="text-gray-300 text-sm sm:text-base">Sign in to your account</p>
                 </div>
 
                 <div id="error-message" class="hidden mb-4 p-3 bg-red-500/20 border border-red-500/50 rounded-lg text-red-200 text-sm"></div>
 
-                <form id="login-form" class="space-y-6">
+                <form id="login-form" class="space-y-4 sm:space-y-6">
                     <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                        <label class="block text-xs sm:text-sm font-medium text-gray-300 mb-2">Email</label>
                         <input type="email" name="email" required 
-                               class="input-glow w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-all duration-300"
+                               class="input-glow w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-white/10 border border-white/20 rounded-lg sm:rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-all duration-300 text-sm sm:text-base"
                                placeholder="Enter your email">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Password</label>
+                        <label class="block text-xs sm:text-sm font-medium text-gray-300 mb-2">Password</label>
                         <div class="relative">
                             <input type="password" name="password" required 
-                                   class="input-glow w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-all duration-300"
+                                   class="input-glow w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-white/10 border border-white/20 rounded-lg sm:rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-all duration-300 text-sm sm:text-base"
                                    placeholder="Enter your password">
                             <button type="button" id="toggle-password" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                                 </svg>
@@ -75,7 +84,7 @@
                         </div>
                     </div>
 
-                    <div class="flex items-center justify-between text-sm">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0 text-xs sm:text-sm">
                         <label class="flex items-center text-gray-300">
                             <input type="checkbox" class="mr-2 rounded bg-white/10 border-white/20">
                             Remember me
@@ -84,7 +93,7 @@
                     </div>
 
                     <button type="submit" id="login-btn" 
-                            class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 focus:outline-none transition-all duration-300 btn-glow">
+                            class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg sm:rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 focus:outline-none transition-all duration-300 btn-glow text-sm sm:text-base">
                         <span id="btn-text">Sign In</span>
                         <span id="btn-loading" class="hidden">
                             <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
@@ -96,8 +105,8 @@
                     </button>
                 </form>
 
-                <div class="mt-8 text-center">
-                    <p class="text-gray-400">Don't have an account? 
+                <div class="mt-6 sm:mt-8 text-center">
+                    <p class="text-gray-400 text-sm sm:text-base">Don't have an account? 
                         <a href="/register" class="text-blue-400 hover:text-blue-300 font-semibold transition-colors">Sign up</a>
                     </p>
                 </div>
